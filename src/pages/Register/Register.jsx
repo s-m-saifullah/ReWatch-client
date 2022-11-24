@@ -4,14 +4,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useToken from "../../hooks/useToken";
 
 const Register = () => {
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
   const { createUser, updateUser, createGoogleUser } = useContext(AuthContext);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
+
+  //   Set Access Token
+  const [token] = useToken(createdUserEmail);
+
+  //   Navigate Registered User to Home
+  const navigate = useNavigate();
+  if (token) {
+    navigate("/");
+  }
 
   const handleSignUp = (data) => {
     console.log(data);
@@ -49,8 +60,19 @@ const Register = () => {
       .catch((err) => console.log(err));
   };
 
-  const saveUser = (name, email, role, image) => {
-    const user = { name, email, role, image };
+  //   Google Sign In
+  const handleGoogleLogin = () => {
+    createGoogleUser()
+      .then((result) => {
+        const newUser = result.user;
+        saveUser(newUser.displayName, newUser.email, newUser.photoURL);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  //   Save user to DB
+  const saveUser = (name, email, image, role = "buyer") => {
+    const user = { name, email, image, role };
     fetch(`${import.meta.env.VITE_apiUrl}/users`, {
       method: "POST",
       headers: {
@@ -61,7 +83,7 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        // setCreatedUserEmail(email);
+        setCreatedUserEmail(email);
         toast.success("Registration Successful");
       });
   };
@@ -80,6 +102,11 @@ const Register = () => {
                 placeholder="Name"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
               />
+              {errors.name && (
+                <p role="alert" className="text-red-600">
+                  {errors.name?.message}
+                </p>
+              )}
             </div>
 
             <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
@@ -89,6 +116,11 @@ const Register = () => {
                 placeholder="Email"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
               />
+              {errors.email && (
+                <p role="alert" className="text-red-600">
+                  {errors.email?.message}
+                </p>
+              )}
             </div>
 
             <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
@@ -98,6 +130,11 @@ const Register = () => {
                 placeholder="Password"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
               />
+              {errors.password && (
+                <p role="alert" className="text-red-600">
+                  {errors.password?.message}
+                </p>
+              )}
             </div>
 
             <div className="ml-3 mb-5">
@@ -131,6 +168,11 @@ const Register = () => {
                   <label htmlFor="seller">Seller</label>
                 </div>
               </div>
+              {errors.userRole && (
+                <p role="alert" className="text-red-600">
+                  {errors.userRole?.message}
+                </p>
+              )}
             </div>
 
             <div className="w-full ml-3 mb-5">
@@ -142,6 +184,11 @@ const Register = () => {
                 type="file"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
               />
+              {errors.image && (
+                <p role="alert" className="text-red-600">
+                  {errors.image?.message}
+                </p>
+              )}
             </div>
             <button
               type="submit"
@@ -156,7 +203,10 @@ const Register = () => {
           <div className="font-semibold text-gray-400">OR</div>
           <hr className="w-full border border-gray-300" />
         </div>
-        <div className="w-full text-center rounded-2xl border-b-2 border-b-gray-300 bg-white py-2.5 px-4 font-bold text-blue-500 ring-2 ring-gray-300 hover:bg-gray-200 active:translate-y-[0.125rem] active:border-b-gray-200">
+        <div
+          onClick={handleGoogleLogin}
+          className="w-full text-center rounded-2xl border-b-2 border-b-gray-300 bg-white py-2.5 px-4 font-bold text-blue-500 ring-2 ring-gray-300 hover:bg-gray-200 active:translate-y-[0.125rem] active:border-b-gray-200 cursor-pointer"
+        >
           <FaGoogle className="inline mr-2" /> Continue with Google
         </div>
       </div>
