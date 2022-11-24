@@ -28,6 +28,9 @@ const Navbar = () => {
       ) : (
         <>
           <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
             <Link to="/login">Login</Link>
           </li>
           <li>
@@ -40,14 +43,22 @@ const Navbar = () => {
   return (
     <div className="bg-gray-100">
       <div className="2xl:container 2xl:mx-auto py-5 lg:px-7 sm:px-6 px-4">
-        <nav className="">
-          <div className=" flex flex-row justify-between items-center">
-            <Link to="/" className=" flex items-center">
-              <img className="w-16" src={Logo} alt="" />
-              <h2 className=" font-bold text-xl leading-5 text-gray-800">
-                ReWatch
-              </h2>
-            </Link>
+        <nav>
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex items-center gap-5">
+              <label
+                htmlFor="dashboard-drawer"
+                className="drawer-button drawer-overlay lg:hidden"
+              >
+                <FaBars className="text-xl" />
+              </label>
+              <Link to="/" className="flex items-center">
+                <img className="w-16" src={Logo} alt="" />
+                <h2 className=" font-bold text-xl leading-5 text-gray-800">
+                  ReWatch
+                </h2>
+              </Link>
+            </div>
 
             {/* For large (i.e. desktop and laptop sized screen) */}
 

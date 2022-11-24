@@ -18,7 +18,7 @@ const ErrorPage = () => {
                 </p>
                 <Link
                   to="/"
-                  className="hidden md:block hover:opacity-90 text-base w-full text-center xl:text-base xl:w-6/12 mt-4 xl:mt-8 f-f-r py-4  bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg"
+                  className="hidden md:block hover:opacity-90 text-base w-full text-center xl:text-base xl:w-6/12 mt-4 xl:mt-8 py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg"
                 >
                   Take me there!
                 </Link>
