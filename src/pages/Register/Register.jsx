@@ -49,8 +49,9 @@ const Register = () => {
                 saveUser(
                   newUser.displayName,
                   newUser.email,
+                  uploadedImg,
                   data.userRole,
-                  uploadedImg
+                  false
                 );
               })
               .catch((err) => console.log(err));
@@ -71,8 +72,8 @@ const Register = () => {
   };
 
   //   Save user to DB
-  const saveUser = (name, email, image, role = "buyer") => {
-    const user = { name, email, image, role };
+  const saveUser = (name, email, image, role = "buyer", isVerified = false) => {
+    const user = { name, email, image, role, isVerified };
     fetch(`${import.meta.env.VITE_apiUrl}/users`, {
       method: "POST",
       headers: {

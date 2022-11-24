@@ -5,8 +5,12 @@ import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import Spinner from "../../../components/Shared/Spinner";
+import LoadingButton from "../../../components/Shared/LoadingButton";
 
 const AddProduct = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
   const {
     register,
@@ -28,14 +32,14 @@ const AddProduct = () => {
   }
 
   const handleAddProduct = (data) => {
-    console.log(data);
+    setIsLoading(true);
 
     const productData = {
       ...data,
       seller: user.displayName,
+      sellerEmail: user.email,
       timePosted: format(new Date(), "PPp"),
       usedFor: new Date().getUTCFullYear() - parseInt(data.purchaseYear),
-      isSellerVerified: false,
     };
 
     console.log(productData);
@@ -67,6 +71,7 @@ const AddProduct = () => {
           .then((data) => {
             console.log(data);
             toast.success("Product Added");
+            setIsLoading(false);
           });
       });
   };
@@ -291,12 +296,16 @@ const AddProduct = () => {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="w-full hover:opacity-90 text-base xl:text-base py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg"
-          >
-            REGISTER
-          </button>
+          {isLoading ? (
+            <LoadingButton />
+          ) : (
+            <button
+              type="submit"
+              className="w-full hover:opacity-90 text-base xl:text-base py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg"
+            >
+              Add Product
+            </button>
+          )}
         </form>
       </div>
     </div>
