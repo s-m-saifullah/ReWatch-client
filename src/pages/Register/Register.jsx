@@ -192,7 +192,7 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400"
+              className="w-full hover:opacity-90 text-base xl:text-base py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg"
             >
               REGISTER
             </button>
@@ -205,7 +205,7 @@ const Register = () => {
         </div>
         <div
           onClick={handleGoogleLogin}
-          className="w-full text-center rounded-2xl border-b-2 border-b-gray-300 bg-white py-2.5 px-4 font-bold text-blue-500 ring-2 ring-gray-300 hover:bg-gray-200 active:translate-y-[0.125rem] active:border-b-gray-200 cursor-pointer"
+          className="w-full text-center rounded-lg border-b-2 border-b-gray-300 bg-white py-2.5 px-4 font-bold text-blue-500 ring-2 ring-gray-300 hover:bg-gray-200 active:translate-y-[0.125rem] active:border-b-gray-200 cursor-pointer"
         >
           <FaGoogle className="inline mr-2" /> Continue with Google
         </div>
