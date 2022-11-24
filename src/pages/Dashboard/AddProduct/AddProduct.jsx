@@ -38,6 +38,7 @@ const AddProduct = () => {
       ...data,
       seller: user.displayName,
       sellerEmail: user.email,
+      status: "available",
       timePosted: format(new Date(), "PPp"),
       usedFor: new Date().getUTCFullYear() - parseInt(data.purchaseYear),
     };

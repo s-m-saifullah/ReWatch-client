@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRegBookmark } from "react-icons/fa";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, setPurchase }) => {
   const {
     image,
     isSellerVerified,
@@ -13,9 +13,8 @@ const ProductCard = ({ product }) => {
     timePosted,
     productDescription,
   } = product;
-  console.log(product);
   return (
-    <div className="mx-2 w-full lg:mb-0 mb-8 shadow-lg rounded-xl">
+    <div className="mx-2 w-full min-h-[780px] lg:mb-0 mb-8 shadow-lg rounded-xl relative">
       <div>
         <img src={image} className="h-96 mx-auto" />
       </div>
@@ -58,15 +57,17 @@ const ProductCard = ({ product }) => {
             <span className="mr-5">Purchase: ${purchasePrice}</span>
             <h3 className="text-indigo-700 text-xl font-semibold">
               Resell:{"  "}
-              <span className="text-4xl">${resellPrice}</span>
+              <span className="text-5xl">${resellPrice}</span>
             </h3>
           </div>
-          <button
-            type="submit"
-            className="w-full hover:opacity-90 text-base xl:text-base py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg"
+
+          <label
+            onClick={() => setPurchase(product)}
+            htmlFor="booking-modal"
+            className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer"
           >
-            Book Now
-          </button>
+            Book Product
+          </label>
         </div>
       </div>
     </div>

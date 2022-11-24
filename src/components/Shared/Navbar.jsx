@@ -64,7 +64,7 @@ const Navbar = () => {
                 {menuItem}
               </ul>
               {user?.uid && (
-                <div className="h-16 w-16 lg:mb-0 mr-4">
+                <div className="w-16 lg:mb-0 mr-4">
                   <img
                     src={user?.photoURL}
                     alt=""
@@ -83,7 +83,7 @@ const Navbar = () => {
               <FaBars className={`${show ? "hidden" : ""} text-xl`} />
               <FaTimes className={`${show ? "block" : "hidden"} text-xl`} />
               {user?.uid && (
-                <div className="h-16 w-16 lg:mb-0 mr-4">
+                <div className="w-16 lg:mb-0 mr-4">
                   <img
                     src={user?.photoURL}
                     alt=""
