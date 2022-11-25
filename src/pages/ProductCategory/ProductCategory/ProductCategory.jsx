@@ -1,12 +1,21 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BookingModal from "../BookingModal/BookingModal";
 import ProductCard from "../ProductCard/ProductCard";
 
 const ProductCategory = () => {
   const [purchase, setPurchase] = useState(null);
-  const products = useLoaderData();
+  const { id } = useParams();
+  console.log(id);
+  const { data: products = [], refetch } = useQuery({
+    queryKey: ["categoryProducts"],
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_apiUrl}/categories/${id}`).then((res) =>
+        res.json()
+      ),
+  });
 
   return (
     <div className="2xl:container 2xl:mx-auto my-20">
@@ -24,7 +33,11 @@ const ProductCategory = () => {
       </div>
 
       {purchase && (
-        <BookingModal purchase={purchase} setPurchase={setPurchase} />
+        <BookingModal
+          purchase={purchase}
+          setPurchase={setPurchase}
+          refetch={refetch}
+        />
       )}
     </div>
   );

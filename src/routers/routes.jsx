@@ -32,8 +32,6 @@ export const router = createBrowserRouter([
       {
         path: "/category/:id",
         element: <ProductCategory />,
-        loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_apiUrl}/categories/${params.id}`),
       },
       {
         path: "/*",

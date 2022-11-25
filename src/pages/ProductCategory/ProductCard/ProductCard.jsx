@@ -12,6 +12,7 @@ const ProductCard = ({ product, setPurchase }) => {
     sellerLocation,
     timePosted,
     productDescription,
+    status,
   } = product;
   return (
     <div className="mx-2 w-full min-h-[780px] lg:mb-0 mb-8 shadow-lg rounded-xl relative">
@@ -61,13 +62,19 @@ const ProductCard = ({ product, setPurchase }) => {
             </h3>
           </div>
 
-          <label
-            onClick={() => setPurchase(product)}
-            htmlFor="booking-modal"
-            className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer"
-          >
-            Book Product
-          </label>
+          {status === "booked" ? (
+            <label className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 text-white font-bold bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer">
+              Product Booked
+            </label>
+          ) : (
+            <label
+              onClick={() => setPurchase(product)}
+              htmlFor="booking-modal"
+              className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 text-white font-bold bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer"
+            >
+              Book Product
+            </label>
+          )}
         </div>
       </div>
     </div>

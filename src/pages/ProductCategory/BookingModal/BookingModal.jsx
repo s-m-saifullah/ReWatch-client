@@ -1,10 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
-const BookingModal = ({ purchase, setPurchase }) => {
+const BookingModal = ({ purchase, setPurchase, refetch }) => {
   const { user } = useContext(AuthContext);
   const { displayName, email } = user;
+  // const { refetch } = useQuery();
 
   const {
     register,
@@ -12,11 +15,32 @@ const BookingModal = ({ purchase, setPurchase }) => {
     handleSubmit,
   } = useForm();
 
-  const { productName, resellPrice } = purchase;
+  const { _id, productName, resellPrice, image } = purchase;
 
   const handleBooking = (data) => {
     console.log(data);
-    setPurchase(null);
+    const bookingData = {
+      ...data,
+      productId: _id,
+      buyer: displayName,
+      buyerEmail: email,
+      image,
+    };
+
+    fetch(`${import.meta.env.VITE_apiUrl}/bookings`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toast.success("Product Booked");
+        refetch();
+        setPurchase(null);
+      });
   };
 
   return (
