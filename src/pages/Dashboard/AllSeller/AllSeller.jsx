@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useContext } from "react";
@@ -6,50 +5,42 @@ import toast from "react-hot-toast";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
-const MyProducts = () => {
-  const { user, loading, setLoading } = useContext(AuthContext);
-  const { data: products = [], refetch } = useQuery({
-    queryKey: ["userProducts"],
+const AllSeller = () => {
+  const { loading, setLoading } = useContext(AuthContext);
+  const { data: sellers = [], refetch } = useQuery({
+    queryKey: ["sellers"],
     queryFn: async () => {
       setLoading(true);
       const res = await fetch(
-        `${import.meta.env.VITE_apiUrl}/products?email=${user?.email}`
+        `${import.meta.env.VITE_apiUrl}/users?role=seller`
       );
       const data = await res.json();
-      await setLoading(false);
+      setLoading(false);
       return data;
     },
   });
-  const handleDelete = (product) => {
-    const consent = confirm("Do you want to delete the product?");
-    console.log(consent);
-    if (confirm) {
-      fetch(`${import.meta.env.VITE_apiUrl}/products?id=${product._id}`, {
-        method: "DELETE",
+
+  const handleDelete = (seller) => {
+    console.log(seller.name);
+  };
+
+  const handleVerify = (seller) => {
+    const consent = confirm(`Do you want to verify ${seller.name}`);
+
+    if (consent) {
+      fetch(`${import.meta.env.VITE_apiUrl}/verify?id=${seller._id}`, {
+        method: "PATCH",
       })
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          if (data.deletedCount > 0) {
-            toast.success("Product Deleted");
+          if (data.result.modifiedCount > 0) {
+            toast.success(`${seller.name} is a verified seller now.`);
             refetch();
           }
         });
     }
   };
-
-  const handlePromote = (id) => {
-    fetch(`${import.meta.env.VITE_apiUrl}/promote?id=${id}`, {
-      method: "PATCH",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-
-        refetch();
-      });
-  };
-
   return (
     <div>
       {loading ? (
@@ -60,7 +51,7 @@ const MyProducts = () => {
             <div className="px-4 md:px-10 py-4 md:py-7 bg-gray-100 rounded-tl-lg rounded-tr-lg">
               <div className="sm:flex items-center justify-between">
                 <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
-                  My Products
+                  All Sellers
                 </h2>
               </div>
             </div>
@@ -68,73 +59,63 @@ const MyProducts = () => {
               <table className="w-full whitespace-nowrap">
                 <thead>
                   <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                    <th className="font-normal text-left pl-4">Product</th>
-                    <th className="font-normal text-left pl-12">Condition</th>
+                    <th className="font-normal text-left pl-4"></th>
+                    <th className="font-normal text-left pl-4">Seller</th>
+                    <th className="font-normal text-left pl-12">Email</th>
                     <th className="font-normal text-left pl-12">
-                      Resell Price
+                      Verified Status
                     </th>
-                    <th className="font-normal text-left pl-12">Status</th>
                     <th className="font-normal text-left pl-20">Action</th>
                   </tr>
                 </thead>
                 <tbody className="w-full">
-                  {products.map((product) => (
+                  {sellers.map((seller, i) => (
                     <tr
-                      key={product._id}
+                      key={seller._id}
                       className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100"
                     >
+                      <td>{i + 1}</td>
                       <td className="pl-4 cursor-pointer">
                         <div className="flex items-center">
                           <div className="w-10">
-                            <img
-                              className="w-full h-full"
-                              src={product.image}
-                            />
+                            <img className="w-full h-full" src={seller.image} />
                           </div>
-                          <div
-                            className="pl-4 tooltip"
-                            data-tip={product.productName}
-                          >
-                            <p className="font-medium">
-                              {product.productName.slice(0, 35) + "..."}
-                            </p>
+                          <div className="pl-4">
+                            <p className="font-medium">{seller.name}</p>
                           </div>
                         </div>
                       </td>
                       <td className="pl-12">
                         <p className="text-sm font-medium leading-none text-gray-800">
-                          {product.productCondition}
+                          {seller.email}
                         </p>
                       </td>
                       <td className="pl-12">
-                        <p className="font-medium">${product.resellPrice}</p>
-                      </td>
-                      <td className="pl-12">
-                        <button className="font-medium capitalize ">
-                          {product.status}
-                        </button>
+                        <p className="font-medium">
+                          {seller.isVerified ? "Verified" : "Not Verified"}
+                        </p>
                       </td>
                       <td className="pl-20">
                         <button
-                          onClick={() => handleDelete(product)}
+                          onClick={() => handleDelete(seller)}
                           className="btn btn-sm bg-red-500 border-none rounded-lg text-white"
                         >
                           Delete
                         </button>
                       </td>
                       <td className="pl-20">
-                        {product.promoted ? (
+                        {seller.isVerified ? (
                           <button className="btn border-none hover:bg-green-500 bg-green-500 btn-sm w-28 rounded-lg">
-                            Promoted
+                            Verified
                           </button>
                         ) : (
                           <button
                             onClick={() => {
-                              handlePromote(product._id);
+                              handleVerify(seller);
                             }}
                             className="btn btn-primary btn-sm w-28 rounded-lg"
                           >
-                            Promote
+                            Verify
                           </button>
                         )}
                       </td>
@@ -150,4 +131,4 @@ const MyProducts = () => {
   );
 };
 
-export default MyProducts;
+export default AllSeller;
