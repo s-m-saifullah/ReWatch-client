@@ -6,3 +6,7 @@
 body {
   font-family: "Nunito", sans-serif;
 }
+
+.tooltip:before {
+  max-width: max-content;
+}

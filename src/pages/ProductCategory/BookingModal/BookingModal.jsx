@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -15,16 +16,17 @@ const BookingModal = ({ purchase, setPurchase, refetch }) => {
     handleSubmit,
   } = useForm();
 
-  const { _id, productName, resellPrice, image } = purchase;
+  const { _id, productName, resellPrice, image, seller, sellerId } = purchase;
 
   const handleBooking = (data) => {
     console.log(data);
     const bookingData = {
       ...data,
       productId: _id,
-      buyer: displayName,
-      buyerEmail: email,
       image,
+      seller,
+      sellerId,
+      bookingTime: format(new Date(), "PPp"),
     };
 
     fetch(`${import.meta.env.VITE_apiUrl}/bookings`, {
@@ -37,9 +39,11 @@ const BookingModal = ({ purchase, setPurchase, refetch }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        toast.success("Product Booked");
-        refetch();
-        setPurchase(null);
+        if (data.result.acknowledged) {
+          toast.success("Product Booked");
+          refetch();
+          setPurchase(null);
+        }
       });
   };
 
@@ -57,7 +61,7 @@ const BookingModal = ({ purchase, setPurchase, refetch }) => {
             <div className="w-full rounded-lg bg-gray-100 px-4 py-1 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
               <label className="text-base">Name</label>
               <input
-                {...register("username")}
+                {...register("buyer")}
                 type="text"
                 value={displayName}
                 className="mt-2 w-full border-none text-lg bg-transparent outline-none focus:outline-none"
@@ -67,7 +71,7 @@ const BookingModal = ({ purchase, setPurchase, refetch }) => {
             <div className="w-full rounded-lg bg-gray-100 px-4 py-1 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
               <label className="text-base">Email</label>
               <input
-                {...register("Email")}
+                {...register("buyerEmail")}
                 type="text"
                 value={email}
                 className="mt-2 w-full border-none text-lg bg-transparent outline-none focus:outline-none"
@@ -113,15 +117,15 @@ const BookingModal = ({ purchase, setPurchase, refetch }) => {
             <div className="w-full rounded-lg px-4 py-1 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
               <label className="text-base">Phone Number</label>
               <input
-                {...register("phone", {
+                {...register("buyerPhone", {
                   required: "Phone number is required",
                 })}
                 type="number    "
                 className="mt-2 w-full border-none text-lg bg-transparent outline-none focus:outline-none"
               />
-              {errors.phone && (
+              {errors.buyerPhone && (
                 <p role="alert" className="text-red-600">
-                  {errors.phone?.message}
+                  {errors.buyerPhone?.message}
                 </p>
               )}
             </div>

@@ -8,7 +8,6 @@ import ProductCard from "../ProductCard/ProductCard";
 const ProductCategory = () => {
   const [purchase, setPurchase] = useState(null);
   const { id } = useParams();
-  console.log(id);
   const { data: products = [], refetch } = useQuery({
     queryKey: ["categoryProducts"],
     queryFn: () =>
