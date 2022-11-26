@@ -26,6 +26,7 @@ const ProductCategory = () => {
               key={product._id}
               product={product}
               setPurchase={setPurchase}
+              refetch={refetch}
             />
           ))}
         </div>

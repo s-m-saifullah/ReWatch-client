@@ -8,7 +8,6 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 const BookingModal = ({ purchase, setPurchase, refetch }) => {
   const { user } = useContext(AuthContext);
   const { displayName, email } = user;
-  // const { refetch } = useQuery();
 
   const {
     register,

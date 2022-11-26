@@ -1,7 +1,10 @@
-import React from "react";
-import { FaRegBookmark } from "react-icons/fa";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
+import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart } from "react-icons/fa";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
-const ProductCard = ({ product, setPurchase }) => {
+const ProductCard = ({ product, setPurchase, refetch }) => {
+  const { user } = useContext(AuthContext);
   const {
     image,
     isSellerVerified,
@@ -13,7 +16,44 @@ const ProductCard = ({ product, setPurchase }) => {
     timePosted,
     productDescription,
     status,
+    userWishlisted,
   } = product;
+
+  const handleAddToWishlist = (email) => {
+    fetch(`${import.meta.env.VITE_apiUrl}/users/wishlist?email=${email}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(product),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.userUpdate.modifiedCount > 0) {
+          toast.success("Product Added To Wishlist");
+          refetch();
+        }
+      });
+  };
+
+  const handleRemoveWishlist = (email) => {
+    fetch(`${import.meta.env.VITE_apiUrl}/users/wishlist/?email=${email}`, {
+      method: "Delete",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(product),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.userUpdate.modifiedCount > 0) {
+          toast.success("Product Removed from Wishlist");
+          refetch();
+        }
+      });
+  };
   return (
     <div className="mx-2 w-full min-h-[780px] lg:mb-0 mb-8 shadow-lg rounded-xl relative">
       <div>
@@ -21,9 +61,22 @@ const ProductCard = ({ product, setPurchase }) => {
       </div>
       <div className="bg-white">
         <div className="flex items-center justify-between px-4 pt-4">
-          <div className="flex items-center cursor-pointer">
-            <FaRegBookmark className="mr-2" /> Add to Wishlist
-          </div>
+          {userWishlisted?.includes(user?.email) ? (
+            <div
+              onClick={() => handleRemoveWishlist(user?.email)}
+              className="flex items-center cursor-pointer"
+            >
+              <FaHeart className="mr-2 text-red-500" /> Added to Wishlist
+            </div>
+          ) : (
+            <div
+              onClick={() => handleAddToWishlist(user?.email)}
+              className="flex items-center cursor-pointer"
+            >
+              <FaRegHeart className="mr-2" /> Add to Wishlist
+            </div>
+          )}
+
           {isSellerVerified && (
             <div className="bg-green-700 py-1.5 px-6 rounded-full">
               <p className="text-base text-white">Verified Seller</p>
