@@ -5,14 +5,14 @@ import toast from "react-hot-toast";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
-const AllSeller = () => {
+const AllBuyers = () => {
   const { removeUser, loading, setLoading } = useContext(AuthContext);
-  const { data: sellers = [], refetch } = useQuery({
-    queryKey: ["sellers"],
+  const { data: buyers = [], refetch } = useQuery({
+    queryKey: ["buyers"],
     queryFn: async () => {
       setLoading(true);
       const res = await fetch(
-        `${import.meta.env.VITE_apiUrl}/users?role=seller`
+        `${import.meta.env.VITE_apiUrl}/users?role=buyer`
       );
       const data = await res.json();
       setLoading(false);
@@ -20,24 +20,21 @@ const AllSeller = () => {
     },
   });
 
-  const handleDelete = (seller) => {
-    console.log(seller.name);
-    const consent = confirm(`Do you want to verify ${seller.name}`);
+  const handleDelete = (buyer) => {
+    console.log(buyer.name);
+    const consent = confirm(`Do you want to verify ${buyer.name}`);
 
     if (consent) {
-      fetch(
-        `${import.meta.env.VITE_apiUrl}/users?id=${seller._id}&role=seller`,
-        {
-          method: "DELETE",
-        }
-      )
+      fetch(`${import.meta.env.VITE_apiUrl}/users?id=${buyer._id}&role=buyer`, {
+        method: "DELETE",
+      })
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
           if (data.result.deletedCount > 0) {
             removeUser()
               .then(() => {
-                toast.success(`${seller.name} is removed.`);
+                toast.success(`${buyer.name} is removed.`);
                 refetch();
               })
               .catch((err) => console.log(err));
@@ -46,18 +43,18 @@ const AllSeller = () => {
     }
   };
 
-  const handleVerify = (seller) => {
-    const consent = confirm(`Do you want to verify ${seller.name}`);
+  const handleVerify = (buyer) => {
+    const consent = confirm(`Do you want to verify ${buyer.name}`);
 
     if (consent) {
-      fetch(`${import.meta.env.VITE_apiUrl}/verify?id=${seller._id}`, {
+      fetch(`${import.meta.env.VITE_apiUrl}/verify?id=${buyer._id}`, {
         method: "PATCH",
       })
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
           if (data.result.modifiedCount > 0) {
-            toast.success(`${seller.name} is a verified seller now.`);
+            toast.success(`${buyer.name} is a verified seller now.`);
             refetch();
           }
         });
@@ -91,49 +88,49 @@ const AllSeller = () => {
                   </tr>
                 </thead>
                 <tbody className="w-full">
-                  {sellers.map((seller, i) => (
+                  {buyers.map((buyer, i) => (
                     <tr
-                      key={seller._id}
+                      key={buyer._id}
                       className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100"
                     >
                       <td>{i + 1}</td>
                       <td className="pl-4 cursor-pointer">
                         <div className="flex items-center">
                           <div className="w-10">
-                            <img className="w-full h-full" src={seller.image} />
+                            <img className="w-full h-full" src={buyer.image} />
                           </div>
                           <div className="pl-4">
-                            <p className="font-medium">{seller.name}</p>
+                            <p className="font-medium">{buyer.name}</p>
                           </div>
                         </div>
                       </td>
                       <td className="pl-12">
                         <p className="text-sm font-medium leading-none text-gray-800">
-                          {seller.email}
+                          {buyer.email}
                         </p>
                       </td>
                       <td className="pl-12">
                         <p className="font-medium">
-                          {seller.isVerified ? "Verified" : "Not Verified"}
+                          {buyer.isVerified ? "Verified" : "Not Verified"}
                         </p>
                       </td>
                       <td className="pl-20">
                         <button
-                          onClick={() => handleDelete(seller)}
+                          onClick={() => handleDelete(buyer)}
                           className="btn btn-sm bg-red-500 border-none rounded-lg text-white"
                         >
                           Delete
                         </button>
                       </td>
                       <td className="pl-20">
-                        {seller.isVerified ? (
+                        {buyer.isVerified ? (
                           <button className="btn border-none hover:bg-green-500 bg-green-500 btn-sm w-28 rounded-lg">
                             Verified
                           </button>
                         ) : (
                           <button
                             onClick={() => {
-                              handleVerify(seller);
+                              handleVerify(buyer);
                             }}
                             className="btn btn-primary btn-sm w-28 rounded-lg"
                           >
@@ -153,4 +150,4 @@ const AllSeller = () => {
   );
 };
 
-export default AllSeller;
+export default AllBuyers;

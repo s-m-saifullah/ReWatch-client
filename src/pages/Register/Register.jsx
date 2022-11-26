@@ -141,32 +141,42 @@ const Register = () => {
             <div className="ml-3 mb-5">
               <label className="inline-block mb-3">Chooser User Role</label>
               <div className="flex gap-10">
-                <div className="flex items-center gap-2">
-                  <input
-                    {...register("userRole", {
-                      required: "User role is required",
-                    })}
-                    id="buyer"
-                    type="radio"
-                    name="userRole"
-                    className="radio"
-                    value="buyer"
-                    checked
-                  />
-                  <label htmlFor="buyer">Buyer</label>
+                <div>
+                  <label
+                    htmlFor="buyer"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      {...register("userRole", {
+                        required: "User role is required",
+                      })}
+                      id="buyer"
+                      type="radio"
+                      name="userRole"
+                      className="radio"
+                      value="buyer"
+                      checked
+                    />
+                    <span>Buyer</span>
+                  </label>
                 </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    {...register("userRole", {
-                      required: "User role is required",
-                    })}
-                    id="seller"
-                    type="radio"
-                    name="userRole"
-                    value="seller"
-                    className="radio"
-                  />{" "}
-                  <label htmlFor="seller">Seller</label>
+                <div>
+                  <label
+                    htmlFor="seller"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      {...register("userRole", {
+                        required: "User role is required",
+                      })}
+                      id="seller"
+                      type="radio"
+                      name="userRole"
+                      value="seller"
+                      className="radio"
+                    />
+                    <span>Seller</span>
+                  </label>
                 </div>
               </div>
               {errors.userRole && (

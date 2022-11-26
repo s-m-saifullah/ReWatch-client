@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useContext } from "react";
-import { FaBars, FaCross, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo-light.svg";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const { user, logout } = useContext(AuthContext);
+  const location = useLocation();
+  const path = location.pathname.split("/")[1];
   const menuItem = (
     <>
       <li>
@@ -43,12 +45,15 @@ const Navbar = () => {
         <nav>
           <div className="flex flex-row justify-between items-center">
             <div className="flex items-center gap-5">
-              <label
-                htmlFor="dashboard-drawer"
-                className="drawer-button drawer-overlay lg:hidden"
-              >
-                <FaBars className="text-xl" />
-              </label>
+              {path === "dashboard" && (
+                <label
+                  htmlFor="dashboard-drawer"
+                  className="drawer-button drawer-overlay lg:hidden"
+                >
+                  <FaBars className="text-xl" />
+                </label>
+              )}
+
               <Link to="/" className="flex items-center">
                 <img className="w-16" src={Logo} alt="" />
                 <h2 className=" font-bold text-xl leading-5 text-gray-800">
@@ -67,7 +72,7 @@ const Navbar = () => {
                 <div className="w-16 lg:mb-0 mr-4">
                   <img
                     src={user?.photoURL}
-                    alt=""
+                    alt={user.displayName}
                     className="h-full w-full rounded-full overflow-hidden shadow"
                   />
                 </div>
@@ -86,7 +91,7 @@ const Navbar = () => {
                 <div className="w-16 lg:mb-0 mr-4">
                   <img
                     src={user?.photoURL}
-                    alt=""
+                    alt={user.displayName}
                     className="h-full w-full rounded-full overflow-hidden shadow"
                   />
                 </div>
