@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
-import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const ProductCard = ({ product, setPurchase, refetch }) => {

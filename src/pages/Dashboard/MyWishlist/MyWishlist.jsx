@@ -114,6 +114,11 @@ const MyWishlist = () => {
                           Delete
                         </button>
                       </td>
+                      <td className="pl-10">
+                        <button className="btn btn-primary btn-sm rounded-lg">
+                          Buy Now
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

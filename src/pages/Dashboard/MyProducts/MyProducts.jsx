@@ -123,7 +123,11 @@ const MyProducts = () => {
                         </button>
                       </td>
                       <td className="pl-20">
-                        {product.promoted ? (
+                        {product.status !== "available" ? (
+                          <button className="btn border-none hover:bg-gray-500 bg-gray-500 btn-sm w-28 rounded-lg">
+                            Unavailable
+                          </button>
+                        ) : product.promoted ? (
                           <button className="btn border-none hover:bg-green-500 bg-green-500 btn-sm w-28 rounded-lg">
                             Promoted
                           </button>
