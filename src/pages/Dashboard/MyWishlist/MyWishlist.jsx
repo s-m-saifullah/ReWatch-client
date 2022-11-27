@@ -1,22 +1,21 @@
-import { async } from "@firebase/util";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyWishlist = () => {
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const [dataLoading, setDataLoading] = useState(true);
+  const { user } = useContext(AuthContext);
   const { data: wishlistProducts = [], refetch } = useQuery({
     queryKey: ["wishlistProducts"],
     queryFn: async () => {
-      setLoading(true);
       const res = await fetch(
         `${import.meta.env.VITE_apiUrl}/products/wishlist?email=${user?.email}`
       );
       const data = await res.json();
-      await setLoading(false);
+      await setDataLoading(false);
       return data;
     },
   });
@@ -40,7 +39,7 @@ const MyWishlist = () => {
 
   return (
     <div>
-      {loading ? (
+      {dataLoading ? (
         <Spinner />
       ) : (
         <>

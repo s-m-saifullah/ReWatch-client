@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaCheckCircle, FaHeart, FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const ProductCard = ({ product, setPurchase, refetch }) => {
@@ -12,6 +12,7 @@ const ProductCard = ({ product, setPurchase, refetch }) => {
     purchasePrice,
     resellPrice,
     seller,
+    usedFor,
     sellerLocation,
     timePosted,
     productDescription,
@@ -77,11 +78,9 @@ const ProductCard = ({ product, setPurchase, refetch }) => {
             </div>
           )}
 
-          {isSellerVerified && (
-            <div className="bg-green-700 py-1.5 px-6 rounded-full">
-              <p className="text-base text-white">Verified Seller</p>
-            </div>
-          )}
+          <div className="bg-green-700 py-1.5 px-6 rounded-full">
+            <p className="text-base text-white">Used: {usedFor}y</p>
+          </div>
         </div>
         <div className="p-4">
           <div className="flex flex-col gap-2">
@@ -97,12 +96,17 @@ const ProductCard = ({ product, setPurchase, refetch }) => {
           </p>
           <div className="flex mt-4 justify-between">
             <div>
-              <p className="text-sm text-gray-600 px-2 bg-gray-200 py-1">
+              <p className="text-md text-gray-600 px-2 bg-gray-200 py-1 relative">
                 Seller: {seller}
+                {isSellerVerified && (
+                  <span className="absolute -right-3">
+                    <FaCheckCircle className="text-blue-600" />
+                  </span>
+                )}
               </p>
             </div>
             <div className="pl-2">
-              <p className="text-sm text-gray-600 px-2 bg-gray-200 py-1">
+              <p className="text-md text-gray-600 px-2 bg-gray-200 py-1">
                 Location : {sellerLocation}
               </p>
             </div>

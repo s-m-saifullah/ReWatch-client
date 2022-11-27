@@ -1,21 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const AllSeller = () => {
-  const { removeUser, loading, setLoading } = useContext(AuthContext);
+  const [dataLoading, setDataLoading] = useState(true);
+  const { removeUser } = useContext(AuthContext);
   const { data: sellers = [], refetch } = useQuery({
     queryKey: ["sellers"],
     queryFn: async () => {
-      setLoading(true);
       const res = await fetch(
         `${import.meta.env.VITE_apiUrl}/users?role=seller`
       );
       const data = await res.json();
-      setLoading(false);
+      setDataLoading(false);
       return data;
     },
   });
@@ -65,7 +65,7 @@ const AllSeller = () => {
   };
   return (
     <div>
-      {loading ? (
+      {dataLoading ? (
         <Spinner />
       ) : (
         <>

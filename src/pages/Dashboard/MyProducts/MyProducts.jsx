@@ -1,22 +1,21 @@
-import { async } from "@firebase/util";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyProducts = () => {
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const [dataLoading, setDataLoading] = useState(true);
+  const { user } = useContext(AuthContext);
   const { data: products = [], refetch } = useQuery({
     queryKey: ["userProducts"],
     queryFn: async () => {
-      setLoading(true);
       const res = await fetch(
         `${import.meta.env.VITE_apiUrl}/products?email=${user?.email}`
       );
       const data = await res.json();
-      await setLoading(false);
+      await setDataLoading(false);
       return data;
     },
   });
@@ -52,7 +51,7 @@ const MyProducts = () => {
 
   return (
     <div>
-      {loading ? (
+      {dataLoading ? (
         <Spinner />
       ) : (
         <>

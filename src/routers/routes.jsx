@@ -4,6 +4,7 @@ import Main from "../layouts/Main";
 import AddProduct from "../pages/Dashboard/AddProduct/AddProduct";
 import AllBuyers from "../pages/Dashboard/AllBuyers/AllBuyers";
 import AllSeller from "../pages/Dashboard/AllSeller/AllSeller";
+import Dashboard from "../pages/Dashboard/Dashboard/Dashboard";
 import MyOrders from "../pages/Dashboard/MyOrders/MyOrders";
 import MyProducts from "../pages/Dashboard/MyProducts/MyProducts";
 import MyWishlist from "../pages/Dashboard/MyWishlist/MyWishlist";
@@ -12,6 +13,7 @@ import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Login/Login";
 import ProductCategory from "../pages/ProductCategory/ProductCategory/ProductCategory";
 import Register from "../pages/Register/Register";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -46,8 +48,17 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    errorElement: <ErrorPage />,
     children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
       {
         path: "/dashboard/add-product",
         element: <AddProduct />,
