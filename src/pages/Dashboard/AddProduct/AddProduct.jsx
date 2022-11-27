@@ -8,10 +8,13 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import Spinner from "../../../components/Shared/Spinner";
 import LoadingButton from "../../../components/Shared/LoadingButton";
+import useRole from "../../../hooks/useRole";
+import { Navigate } from "react-router-dom";
 
 const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
   const {
     register,
     formState: { errors },
@@ -25,6 +28,14 @@ const AddProduct = () => {
         res.json()
       ),
   });
+  if (isUserRoleLoading) {
+    return <Spinner />;
+  }
+
+  if (userRole !== "seller") {
+    logout();
+    return <Navigate to="/login" />;
+  }
 
   let years = [];
   for (let i = new Date().getFullYear(); i >= 2000; i--) {

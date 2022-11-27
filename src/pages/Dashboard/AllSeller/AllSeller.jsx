@@ -2,12 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useRole from "../../../hooks/useRole";
 
 const AllSeller = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { removeUser } = useContext(AuthContext);
+  const { user, removeUser, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: sellers = [], refetch } = useQuery({
     queryKey: ["sellers"],
     queryFn: async () => {
@@ -19,6 +22,15 @@ const AllSeller = () => {
       return data;
     },
   });
+
+  if (isUserRoleLoading) {
+    return <Spinner />;
+  }
+
+  if (userRole !== "admin") {
+    logout();
+    return <Navigate to="/login" />;
+  }
 
   const handleDelete = (seller) => {
     console.log(seller.name);
@@ -80,14 +92,14 @@ const AllSeller = () => {
             <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
               <table className="w-full whitespace-nowrap">
                 <thead>
-                  <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                    <th className="font-normal text-left pl-4"></th>
-                    <th className="font-normal text-left pl-4">Seller</th>
-                    <th className="font-normal text-left pl-12">Email</th>
-                    <th className="font-normal text-left pl-12">
+                  <tr className="h-16 w-full text-md leading-none text-gray-800">
+                    <th className="font-bold text-left pl-4"></th>
+                    <th className="font-bold text-left pl-4">Seller</th>
+                    <th className="font-bold text-left pl-12">Email</th>
+                    <th className="font-bold text-left pl-12">
                       Verified Status
                     </th>
-                    <th className="font-normal text-left pl-20">Action</th>
+                    <th className="font-bold text-left pl-20">Action</th>
                   </tr>
                 </thead>
                 <tbody className="w-full">

@@ -8,7 +8,7 @@ const ErrorPage = () => {
         <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
           <div className="relative">
             <div className="absolute">
-              <div className>
+              <div>
                 <h1 className="my-2 text-gray-800 font-bold text-2xl">
                   Looks like you've found the doorway to the great nothing
                 </h1>

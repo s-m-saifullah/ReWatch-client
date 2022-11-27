@@ -2,12 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useRole from "../../../hooks/useRole";
 
 const MyWishlist = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: wishlistProducts = [], refetch } = useQuery({
     queryKey: ["wishlistProducts"],
     queryFn: async () => {
@@ -15,10 +18,18 @@ const MyWishlist = () => {
         `${import.meta.env.VITE_apiUrl}/products/wishlist?email=${user?.email}`
       );
       const data = await res.json();
-      await setDataLoading(false);
+      setDataLoading(false);
       return data;
     },
   });
+  if (isUserRoleLoading) {
+    return <Spinner />;
+  }
+
+  if (userRole !== "buyer") {
+    logout();
+    return <Navigate to="/login" />;
+  }
   const handleRemoveWishlist = (email, product) => {
     fetch(`${import.meta.env.VITE_apiUrl}/users/wishlist/?email=${email}`, {
       method: "Delete",
@@ -54,15 +65,13 @@ const MyWishlist = () => {
             <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
               <table className="w-full whitespace-nowrap">
                 <thead>
-                  <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                    <th className="font-normal text-left pl-4"></th>
-                    <th className="font-normal text-left pl-4">Product</th>
-                    <th className="font-normal text-left pl-12">Category</th>
-                    <th className="font-normal text-left pl-12">
-                      Resell Price
-                    </th>
-                    <th className="font-normal text-left pl-12">Status</th>
-                    <th className="font-normal text-left pl-20">Action</th>
+                  <tr className="h-16 w-full text-md leading-none text-gray-800">
+                    <th className="font-bold text-left pl-4"></th>
+                    <th className="font-bold text-left pl-4">Product</th>
+                    <th className="font-bold text-left pl-12">Category</th>
+                    <th className="font-bold text-left pl-12">Resell Price</th>
+                    <th className="font-bold text-left pl-12">Status</th>
+                    <th className="font-bold text-left pl-20">Action</th>
                   </tr>
                 </thead>
                 <tbody className="w-full">

@@ -4,12 +4,15 @@ import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useRole from "../../../hooks/useRole";
 
 const MyOrders = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: bookings = [], refetch } = useQuery({
     queryKey: ["userProducts"],
     queryFn: async () => {
@@ -21,6 +24,15 @@ const MyOrders = () => {
       return data;
     },
   });
+
+  if (isUserRoleLoading) {
+    return <Spinner />;
+  }
+
+  if (userRole !== "buyer") {
+    logout();
+    return <Navigate to="/login" />;
+  }
 
   console.log(bookings);
   const handleDelete = (booking) => {
@@ -68,21 +80,19 @@ const MyOrders = () => {
             <div className="px-4 md:px-10 py-4 md:py-7 bg-gray-100 rounded-tl-lg rounded-tr-lg">
               <div className="sm:flex items-center justify-between">
                 <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
-                  My Products
+                  My Orders
                 </h2>
               </div>
             </div>
             <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
               <table className="w-full whitespace-nowrap">
                 <thead>
-                  <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                    <th className="font-normal text-left pl-4"></th>
-                    <th className="font-normal text-left pl-4">Product</th>
-                    <th className="font-normal text-left pl-12">seller</th>
-                    <th className="font-normal text-left pl-12">
-                      Resell Price
-                    </th>
-                    <th className="font-normal text-left pl-20">Action</th>
+                  <tr className="h-16 w-full text-md leading-none text-gray-800">
+                    <th className="font-bold text-left pl-4"></th>
+                    <th className="font-bold text-left pl-4">Product</th>
+                    <th className="font-bold text-left pl-12">Seller</th>
+                    <th className="font-bold text-left pl-12">Resell Price</th>
+                    <th className="font-bold text-left pl-20">Action</th>
                   </tr>
                 </thead>
                 <tbody className="w-full">
@@ -127,7 +137,7 @@ const MyOrders = () => {
                           Cancel
                         </button>
                       </td>
-                      <td className="pl-20">
+                      <td className="pl-10">
                         {booking.paid ? (
                           <button className="btn border-none hover:bg-green-500 bg-green-500 btn-sm w-28 rounded-lg">
                             Paid

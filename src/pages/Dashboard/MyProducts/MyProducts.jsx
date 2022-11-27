@@ -2,12 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useRole from "../../../hooks/useRole";
 
 const MyProducts = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: products = [], refetch } = useQuery({
     queryKey: ["userProducts"],
     queryFn: async () => {
@@ -15,10 +18,18 @@ const MyProducts = () => {
         `${import.meta.env.VITE_apiUrl}/products?email=${user?.email}`
       );
       const data = await res.json();
-      await setDataLoading(false);
+      setDataLoading(false);
       return data;
     },
   });
+  if (isUserRoleLoading) {
+    return <Spinner />;
+  }
+
+  if (userRole !== "seller") {
+    logout();
+    return <Navigate to="/login" />;
+  }
   const handleDelete = (product) => {
     const consent = confirm("Do you want to delete the product?");
     console.log(consent);
