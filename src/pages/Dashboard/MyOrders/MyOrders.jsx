@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import useRole from "../../../hooks/useRole";
@@ -60,18 +60,6 @@ const MyOrders = () => {
           }
         });
     }
-  };
-
-  const handlePromote = (id) => {
-    fetch(`${import.meta.env.VITE_apiUrl}/promote?id=${id}`, {
-      method: "PATCH",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-
-        refetch();
-      });
   };
 
   return (
@@ -147,14 +135,11 @@ const MyOrders = () => {
                             Paid
                           </button>
                         ) : (
-                          <button
-                            onClick={() => {
-                              handlePromote(booking._id);
-                            }}
-                            className="btn btn-primary btn-sm w-28 rounded-lg"
-                          >
-                            Pay
-                          </button>
+                          <Link to={`/dashboard/payment/${booking._id}`}>
+                            <button className="btn btn-primary btn-sm w-28 rounded-lg">
+                              Pay
+                            </button>
+                          </Link>
                         )}
                       </td>
                     </tr>

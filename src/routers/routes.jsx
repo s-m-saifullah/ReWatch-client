@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard/Dashboard/Dashboard";
 import MyOrders from "../pages/Dashboard/MyOrders/MyOrders";
 import MyProducts from "../pages/Dashboard/MyProducts/MyProducts";
 import MyWishlist from "../pages/Dashboard/MyWishlist/MyWishlist";
+import Payment from "../pages/Dashboard/Payment/Payment";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Login/Login";
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -39,7 +41,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/category/:id",
-        element: <ProductCategory />,
+        element: (
+          <PrivateRoute>
+            <ProductCategory />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blog",
@@ -87,6 +93,12 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/wishlist",
         element: <MyWishlist />,
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: <Payment />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_apiUrl}/bookings/${params.id}`),
       },
       {
         path: "/dashboard/*",
