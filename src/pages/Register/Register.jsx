@@ -8,6 +8,7 @@ import useToken from "../../hooks/useToken";
 
 const Register = () => {
   const [createdUserEmail, setCreatedUserEmail] = useState("");
+  const [registerError, setRegisterError] = useState("");
   const { createUser, updateUser, createGoogleUser } = useContext(AuthContext);
   const {
     register,
@@ -54,11 +55,20 @@ const Register = () => {
                   false
                 );
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                console.log(err);
+                setRegisterError(err.message);
+              });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+            setRegisterError(err.message);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setRegisterError(err.message);
+      });
   };
 
   //   Google Sign In
@@ -68,7 +78,10 @@ const Register = () => {
         const newUser = result.user;
         saveUser(newUser.displayName, newUser.email, newUser.photoURL);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setRegisterError(err.message);
+      });
   };
 
   //   Save user to DB
@@ -91,7 +104,7 @@ const Register = () => {
 
   return (
     <div className="container mx-auto min-h-[900px] flex place-items-center">
-      <div className="w-1/4 mx-auto">
+      <div className="w-96 mx-auto">
         <div className="space-y-4">
           <h2 className="mb-3 text-2xl font-bold">Create your profile</h2>
 
@@ -207,6 +220,15 @@ const Register = () => {
             >
               REGISTER
             </button>
+            {registerError && (
+              <p className="text-center mt-3 text-red-500">{registerError}</p>
+            )}
+            <p className="mt-3 text-center">
+              Already a user?{" "}
+              <Link to="/login" className="underline">
+                Please Login
+              </Link>
+            </p>
           </form>
         </div>
         <div className="flex items-center space-x-4 my-5">

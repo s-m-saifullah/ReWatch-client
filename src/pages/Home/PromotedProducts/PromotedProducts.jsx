@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
+import BookingModal from "../../ProductCategory/BookingModal/BookingModal";
 import ProductCard from "../../ProductCategory/ProductCard/ProductCard";
 
 const PromotedProducts = () => {
-  const { data: promotedProducts = [] } = useQuery({
+  const [purchase, setPurchase] = useState(null);
+  const { data: promotedProducts = [], refetch } = useQuery({
     queryKey: ["promotedProducts"],
     queryFn: () =>
       fetch(
@@ -24,12 +26,24 @@ const PromotedProducts = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 md:mt-14 gap-20">
                   {promotedProducts.slice(0, 2).map((product) => (
-                    <ProductCard key={product._id} product={product} />
+                    <ProductCard
+                      key={product._id}
+                      product={product}
+                      setPurchase={setPurchase}
+                      refetch={refetch}
+                    />
                   ))}
                 </div>
               </div>
             </div>
           </div>
+          {purchase && (
+            <BookingModal
+              purchase={purchase}
+              setPurchase={setPurchase}
+              refetch={refetch}
+            />
+          )}
         </div>
       ) : (
         ""

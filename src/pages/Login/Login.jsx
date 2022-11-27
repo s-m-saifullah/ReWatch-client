@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from "../../contexts/AuthProvider";
 import toast from "react-hot-toast";
@@ -8,6 +8,7 @@ import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [loginError, setLoginError] = useState("");
   const { login, createGoogleUser } = useContext(AuthContext);
   const {
     register,
@@ -31,7 +32,10 @@ const Login = () => {
         setLoginUserEmail(newUser.email);
         toast.success("Login Successful");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoginError(err.message);
+      });
   };
 
   //   Google Sign In
@@ -42,7 +46,10 @@ const Login = () => {
         setLoginUserEmail(newUser.email);
         saveUser(newUser.displayName, newUser.email, newUser.photoURL);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoginError(err.message);
+      });
   };
 
   //   Save user to DB
@@ -104,6 +111,15 @@ const Login = () => {
             >
               LOGIN
             </button>
+            {loginError && (
+              <p className="text-center mt-3 text-red-500">{loginError}</p>
+            )}
+            <p className="mt-3 text-center">
+              New to ReWatch?{" "}
+              <Link to="/register" className="underline">
+                Please Register
+              </Link>
+            </p>
           </form>
         </div>
         <div className="flex items-center space-x-4 my-5">

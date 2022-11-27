@@ -1,10 +1,19 @@
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { FaCheckCircle, FaHeart, FaRegHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useRole from "../../../hooks/useRole";
 
 const ProductCard = ({ product, setPurchase, refetch }) => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
+  if (user) {
+    if (isUserRoleLoading) {
+      return <Spinner />;
+    }
+  }
   const {
     image,
     isSellerVerified,
@@ -119,7 +128,19 @@ const ProductCard = ({ product, setPurchase, refetch }) => {
             </h3>
           </div>
 
-          {status === "booked" ? (
+          {!user?.uid ? (
+            <Link to="/login">
+              <label className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 text-white font-bold bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer">
+                Login to Buy
+              </label>
+            </Link>
+          ) : userRole !== "buyer" ? (
+            <Link onClick={logout} to="/register">
+              <label className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 text-white font-bold bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer">
+                Register as a Buyer to Buy
+              </label>
+            </Link>
+          ) : status === "booked" ? (
             <label className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 text-white font-bold bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer">
               Product Booked
             </label>

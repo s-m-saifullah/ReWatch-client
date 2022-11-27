@@ -17,7 +17,7 @@ const Blog = () => {
       <div className="mt-4 flex md:justify-between md:items-start md:flex-row flex-col justify-start items-start">
         <div>
           <p className=" font-normal text-base leading-6 text-gray-600 lg:w-8/12 md:w-9/12 ">
-            Here are few of the most frequently asked questions by our valueable
+            Here are few of the most frequently asked questions by our valuable
             customers.
           </p>
         </div>
