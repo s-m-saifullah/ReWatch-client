@@ -14,12 +14,22 @@ const MyProducts = () => {
   const { data: products = [], refetch } = useQuery({
     queryKey: ["userProducts"],
     queryFn: async () => {
-      const res = await fetch(
-        `${import.meta.env.VITE_apiUrl}/products?email=${user?.email}`
-      );
-      const data = await res.json();
-      setDataLoading(false);
-      return data;
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_apiUrl}/products?email=${user?.email}`,
+          {
+            headers: {
+              authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+        if (res.status === 401) {
+          logout();
+        }
+        const data = await res.json();
+        setDataLoading(false);
+        return data;
+      } catch (error) {}
     },
   });
   if (isUserRoleLoading) {
