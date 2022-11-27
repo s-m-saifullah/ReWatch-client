@@ -17,10 +17,15 @@ const MyOrders = () => {
     queryKey: ["userProducts"],
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_apiUrl}/bookings?email=${user?.email}`
+        `${import.meta.env.VITE_apiUrl}/bookings?email=${user?.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
       const data = await res.json();
-      await setDataLoading(false);
+      setDataLoading(false);
       return data;
     },
   });
@@ -31,7 +36,7 @@ const MyOrders = () => {
 
   if (userRole !== "buyer") {
     logout();
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   console.log(bookings);

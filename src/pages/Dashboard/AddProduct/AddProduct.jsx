@@ -34,7 +34,7 @@ const AddProduct = () => {
 
   if (userRole !== "seller") {
     logout();
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   let years = [];

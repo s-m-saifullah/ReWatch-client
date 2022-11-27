@@ -15,7 +15,12 @@ const AllSeller = () => {
     queryKey: ["sellers"],
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_apiUrl}/users?role=seller`
+        `${import.meta.env.VITE_apiUrl}/users?role=seller&email=${user?.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
       const data = await res.json();
       setDataLoading(false);
@@ -29,7 +34,7 @@ const AllSeller = () => {
 
   if (userRole !== "admin") {
     logout();
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   const handleDelete = (seller) => {

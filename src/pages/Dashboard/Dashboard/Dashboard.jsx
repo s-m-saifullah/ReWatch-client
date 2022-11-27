@@ -20,7 +20,7 @@ const Dashboard = () => {
       return <Navigate to="/dashboard/all-sellers" />;
     }
     if (userRole === "seller") {
-      return <Navigate to="/dashboard/my-products" />;
+      return <Navigate to="/dashboard/add-product" />;
     }
     if (userRole === "buyer") {
       return <Navigate to="/dashboard/my-orders" />;

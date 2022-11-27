@@ -28,7 +28,7 @@ const MyWishlist = () => {
 
   if (userRole !== "buyer") {
     logout();
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   const handleRemoveWishlist = (email, product) => {
     fetch(`${import.meta.env.VITE_apiUrl}/users/wishlist/?email=${email}`, {

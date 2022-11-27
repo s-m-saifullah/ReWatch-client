@@ -38,7 +38,7 @@ const MyProducts = () => {
 
   if (userRole !== "seller") {
     logout();
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   const handleDelete = (product) => {
     const consent = confirm("Do you want to delete the product?");
@@ -59,9 +59,17 @@ const MyProducts = () => {
   };
 
   const handlePromote = (id) => {
-    fetch(`${import.meta.env.VITE_apiUrl}/promote?id=${id}`, {
-      method: "PATCH",
-    })
+    fetch(
+      `${import.meta.env.VITE_apiUrl}/products/promote?id=${id}&email=${
+        user?.email
+      }`,
+      {
+        method: "PATCH",
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
