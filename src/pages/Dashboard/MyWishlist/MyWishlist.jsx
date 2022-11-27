@@ -9,7 +9,7 @@ import useRole from "../../../hooks/useRole";
 
 const MyWishlist = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: wishlistProducts = [], refetch } = useQuery({
     queryKey: ["wishlistProducts"],
@@ -27,7 +27,6 @@ const MyWishlist = () => {
   }
 
   if (userRole !== "buyer") {
-    logout();
     return <Navigate to="/" />;
   }
   const handleRemoveWishlist = (email, product) => {

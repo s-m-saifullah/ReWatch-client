@@ -58,12 +58,6 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  // Remove User
-  const removeUser = () => {
-    setLoading(true);
-    return deleteUser(auth.currentUser);
-  };
-
   //   Reset Password
   const resetPassword = (email) => {
     setLoading(true);
@@ -86,7 +80,6 @@ const AuthProvider = ({ children }) => {
     resetPassword,
     login,
     logout,
-    removeUser,
     user,
     loading,
     setLoading,

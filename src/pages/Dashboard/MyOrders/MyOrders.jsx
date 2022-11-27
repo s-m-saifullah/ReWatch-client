@@ -11,7 +11,7 @@ import useRole from "../../../hooks/useRole";
 
 const MyOrders = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: bookings = [], refetch } = useQuery({
     queryKey: ["userProducts"],
@@ -35,7 +35,6 @@ const MyOrders = () => {
   }
 
   if (userRole !== "buyer") {
-    logout();
     return <Navigate to="/" />;
   }
 

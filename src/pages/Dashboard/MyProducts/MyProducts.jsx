@@ -9,7 +9,7 @@ import useRole from "../../../hooks/useRole";
 
 const MyProducts = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: products = [], refetch } = useQuery({
     queryKey: ["userProducts"],
@@ -37,7 +37,6 @@ const MyProducts = () => {
   }
 
   if (userRole !== "seller") {
-    logout();
     return <Navigate to="/" />;
   }
   const handleDelete = (product) => {

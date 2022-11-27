@@ -9,7 +9,7 @@ import useRole from "../../../hooks/useRole";
 
 const AllBuyers = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user, removeUser, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: buyers = [], refetch } = useQuery({
     queryKey: ["buyers"],
@@ -34,7 +34,6 @@ const AllBuyers = () => {
   }
 
   if (userRole !== "admin") {
-    logout();
     return <Navigate to="/" />;
   }
 
@@ -50,12 +49,8 @@ const AllBuyers = () => {
         .then((data) => {
           console.log(data);
           if (data.result.deletedCount > 0) {
-            removeUser()
-              .then(() => {
-                toast.success(`${buyer.name} is removed.`);
-                refetch();
-              })
-              .catch((err) => console.log(err));
+            toast.success(`${buyer.name} is removed.`);
+            refetch();
           }
         });
     }

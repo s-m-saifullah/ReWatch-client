@@ -13,7 +13,7 @@ import { Navigate } from "react-router-dom";
 
 const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const {
     register,
@@ -33,7 +33,6 @@ const AddProduct = () => {
   }
 
   if (userRole !== "seller") {
-    logout();
     return <Navigate to="/" />;
   }
 
