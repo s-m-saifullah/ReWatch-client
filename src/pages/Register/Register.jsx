@@ -108,8 +108,8 @@ const Register = () => {
   };
 
   return (
-    <div className="container mx-auto min-h-[900px] flex place-items-center">
-      <div className="w-96 mx-auto">
+    <div className="container mx-auto min-h-[800px] flex place-items-start lg:place-items-center">
+      <div className="w-96 mx-auto shadow-2xl p-5">
         <div className="space-y-4">
           <h2 className="mb-3 text-2xl font-bold">Create your profile</h2>
 

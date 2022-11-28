@@ -87,14 +87,13 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        // setCreatedUserEmail(email);
         toast.success("Registration Successful");
       });
   };
 
   return (
-    <div className="container mx-auto min-h-[900px] flex place-items-center">
-      <div className="w-11/12 md:w-1/3 lg:w-1/4 mx-auto">
+    <div className="container mx-auto min-h-[800px] flex place-items-start lg:place-items-center">
+      <div className="w-11/12 md:w-1/3 lg:w-1/4 mx-auto shadow-2xl p-5">
         <div className="space-y-4">
           <h2 className="mb-3 text-2xl font-bold">Login</h2>
 

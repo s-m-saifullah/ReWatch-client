@@ -15,12 +15,12 @@ const Footer = () => {
                   <ul>
                     <li>
                       <Link className="text-xs lg:text-sm leading-none hover:text-brand text-gray-50">
-                        Components
+                        All Products
                       </Link>
                     </li>
                     <li className="mt-6">
                       <Link className="text-xs lg:text-sm leading-none hover:text-brand text-gray-50">
-                        Templates
+                        Categories
                       </Link>
                     </li>
                     <li className="mt-6">
@@ -29,7 +29,10 @@ const Footer = () => {
                       </Link>
                     </li>
                     <li className="mt-6">
-                      <Link className="text-xs lg:text-sm leading-none hover:text-brand  text-gray-50">
+                      <Link
+                        to="/blog"
+                        className="text-xs lg:text-sm leading-none hover:text-brand  text-gray-50"
+                      >
                         FAQ
                       </Link>
                     </li>
@@ -44,18 +47,20 @@ const Footer = () => {
                   <ul>
                     <li>
                       <Link className="text-xs lg:text-sm leading-none hover:text-brand text-gray-50">
-                        Free components
+                        Offers
                       </Link>
                     </li>
-
                     <li className="mt-6">
-                      <Link className="text-xs lg:text-sm leading-none hover:text-brand text-gray-50">
+                      <Link
+                        to="blog"
+                        className="text-xs lg:text-sm leading-none hover:text-brand text-gray-50"
+                      >
                         Blog
                       </Link>
                     </li>
                     <li className="mt-6">
                       <Link className="text-xs lg:text-sm leading-none hover:text-brand text-gray-50">
-                        Changelog
+                        Newly Posted
                       </Link>
                     </li>
                   </ul>
