@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaLongArrowAltUp } from "react-icons/fa";
 import { AuthContext } from "../../contexts/AuthProvider";
 import toast from "react-hot-toast";
 import useToken from "../../hooks/useToken";
@@ -61,7 +61,6 @@ const Login = () => {
   };
 
   const handleResetPassword = () => {
-    console.log(email);
     resetPassword(email)
       .then(() => {
         toast.success("Password reset link has been sent to your mailbox.");

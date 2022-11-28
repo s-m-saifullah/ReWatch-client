@@ -12,7 +12,7 @@ const Navbar = () => {
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  console.log(!isUserRoleLoading && userRole);
+
   const menuItem = (
     <>
       <li>
