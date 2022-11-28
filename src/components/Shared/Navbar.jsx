@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { CgMenuLeftAlt } from "react-icons/cg";
+
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo-light.svg";
 import { AuthContext } from "../../contexts/AuthProvider";
 import useRole from "../../hooks/useRole";
-import Spinner from "./Spinner";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
@@ -54,7 +55,7 @@ const Navbar = () => {
                   htmlFor="dashboard-drawer"
                   className="drawer-button drawer-overlay lg:hidden"
                 >
-                  <FaBars className="text-xl" />
+                  <CgMenuLeftAlt className="text-xl" />
                 </label>
               )}
 
@@ -101,7 +102,7 @@ const Navbar = () => {
               <FaBars className={`${show ? "hidden" : ""} text-xl`} />
               <FaTimes className={`${show ? "block" : "hidden"} text-xl`} />
               {user?.uid && (
-                <div className="w-16 lg:mb-0 mr-4">
+                <div className="w-10 lg:mb-0 mr-4">
                   <img
                     src={user?.photoURL}
                     alt={user.displayName}
