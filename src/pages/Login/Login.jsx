@@ -10,7 +10,8 @@ import LoadingButton from "../../components/Shared/LoadingButton";
 const Login = () => {
   const [loginUserEmail, setLoginUserEmail] = useState("");
   const [loginError, setLoginError] = useState("");
-  const { login, createGoogleUser, loading, setLoading } =
+  const [email, setEmail] = useState("");
+  const { login, createGoogleUser, resetPassword, loading, setLoading } =
     useContext(AuthContext);
   const {
     register,
@@ -59,6 +60,20 @@ const Login = () => {
       });
   };
 
+  const handleResetPassword = () => {
+    console.log(email);
+    resetPassword(email)
+      .then(() => {
+        toast.success("Password reset link has been sent to your mailbox.");
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoginError(err.message);
+        setLoading(false);
+      });
+  };
+
   //   Save user to DB
   const saveUser = (name, email, image, role = "buyer", isVerified = false) => {
     const user = { name, email, image, role, isVerified };
@@ -87,6 +102,9 @@ const Login = () => {
             <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
               <input
                 {...register("email", { required: "Email is required" })}
+                onBlur={(e) => {
+                  setEmail(e.target.value);
+                }}
                 type="email"
                 placeholder="Email"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
@@ -105,12 +123,16 @@ const Login = () => {
                 placeholder="Password"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
               />
+
               {errors.password && (
                 <p role="alert" className="text-red-600">
                   {errors.password?.message}
                 </p>
               )}
             </div>
+            <p onClick={handleResetPassword} className="mb-2 cursor-pointer">
+              Forget Password?
+            </p>
 
             {loading ? (
               <LoadingButton />
