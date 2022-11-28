@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import useRole from "../../../hooks/useRole";
@@ -64,7 +64,7 @@ const MyWishlist = () => {
             <div className="px-4 md:px-10 py-4 md:py-7 bg-gray-100 rounded-tl-lg rounded-tr-lg">
               <div className="sm:flex items-center justify-between">
                 <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
-                  My Products
+                  My Wishlist
                 </h2>
               </div>
             </div>
@@ -129,9 +129,11 @@ const MyWishlist = () => {
                         </button>
                       </td>
                       <td className="pl-10">
-                        <button className="btn btn-primary btn-sm rounded-lg">
-                          Buy Now
-                        </button>
+                        <Link to={`/dashboard/payment/${product._id}`}>
+                          <button className="btn btn-primary btn-sm w-28 rounded-lg">
+                            Buy Now
+                          </button>
+                        </Link>
                       </td>
                     </tr>
                   ))}

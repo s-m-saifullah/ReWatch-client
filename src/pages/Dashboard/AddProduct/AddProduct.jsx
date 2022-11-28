@@ -9,7 +9,7 @@ import { useState } from "react";
 import Spinner from "../../../components/Shared/Spinner";
 import LoadingButton from "../../../components/Shared/LoadingButton";
 import useRole from "../../../hooks/useRole";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +28,7 @@ const AddProduct = () => {
         res.json()
       ),
   });
+  const navigate = useNavigate();
   if (isUserRoleLoading) {
     return <Spinner />;
   }
@@ -52,8 +53,6 @@ const AddProduct = () => {
       timePosted: format(new Date(), "PPp"),
       usedFor: new Date().getUTCFullYear() - parseInt(data.purchaseYear),
     };
-
-    console.log(productData);
 
     const formData = new FormData();
     formData.append("image", data.image[0]);
@@ -82,6 +81,7 @@ const AddProduct = () => {
           .then((data) => {
             console.log(data);
             toast.success("Product Added");
+            navigate("/dashboard/my-products");
             setIsLoading(false);
           });
       });
