@@ -4,12 +4,15 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo-light.svg";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useRole from "../../hooks/useRole";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const { user, logout } = useContext(AuthContext);
+  const [userRole, isUserRoleLoading] = useRole(user?.email);
   const location = useLocation();
   const path = location.pathname.split("/")[1];
+  console.log(!isUserRoleLoading && userRole);
   const menuItem = (
     <>
       <li>
@@ -65,6 +68,15 @@ const Navbar = () => {
             {/* For large (i.e. desktop and laptop sized screen) */}
 
             <div className=" hidden sm:flex items-center gap-5">
+              {!isUserRoleLoading && userRole && (
+                <p>
+                  You're {userRole.startsWith("a") ? "an " : "a "}
+                  <span className="btn btn-sm rounded-lg bg-indigo-700 border-none capitalize">
+                    {userRole}
+                  </span>
+                </p>
+              )}
+
               <ul className="flex xl:pl-4 lg:pl-3 justify-end flex-row sm:space-x-4 md:space-x-6 lg:space-x-3 xl:space-x-4">
                 {menuItem}
               </ul>
@@ -107,7 +119,16 @@ const Navbar = () => {
               show ? "block" : "hidden"
             } transform duration-150 sm:hidden mt-4`}
           >
+            {!isUserRoleLoading && userRole && (
+              <p className="mb-2">
+                You're {userRole.startsWith("a") ? "an " : "a "}
+                <span className="btn btn-sm rounded-lg bg-indigo-700 border-none capitalize">
+                  {userRole}
+                </span>
+              </p>
+            )}
             <hr className=" w-full bg-gray-300" />
+
             <ul className="flex flex-col gap-4 mt-4 max-w-sm mx-auto ">
               {menuItem}
             </ul>

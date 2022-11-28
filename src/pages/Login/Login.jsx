@@ -23,7 +23,6 @@ const Login = () => {
   if (from.includes("/dashboard")) {
     from = "/dashboard";
   }
-  console.log(from);
   const [token] = useToken(loginUserEmail);
   if (token) {
     navigate(from, { replace: true });
