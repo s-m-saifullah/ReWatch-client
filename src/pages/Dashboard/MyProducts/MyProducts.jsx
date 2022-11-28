@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Spinner from "../../../components/Shared/Spinner";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import useRole from "../../../hooks/useRole";
@@ -81,6 +81,15 @@ const MyProducts = () => {
     <div>
       {dataLoading ? (
         <Spinner />
+      ) : products.length === 0 ? (
+        <div className="min-h-[300px] flex justify-center items-center w-full">
+          <p className="text-center text-3xl">
+            You don't have any product to display.{" "}
+            <Link to="/dashboard/add-product" className="text-indigo-700">
+              Add some products first.
+            </Link>
+          </p>
+        </div>
       ) : (
         <>
           <div className="w-full sm:px-6 mt-10">
@@ -94,14 +103,12 @@ const MyProducts = () => {
             <div className="bg-white shadow px-4 md:px-10 pt-4 md:pt-7 pb-5 overflow-y-auto">
               <table className="w-full whitespace-nowrap">
                 <thead>
-                  <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                    <th className="font-normal text-left pl-4">Product</th>
-                    <th className="font-normal text-left pl-12">Condition</th>
-                    <th className="font-normal text-left pl-12">
-                      Resell Price
-                    </th>
-                    <th className="font-normal text-left pl-12">Status</th>
-                    <th className="font-normal text-left pl-20">Action</th>
+                  <tr className="h-16 w-full text-md leading-none text-gray-800">
+                    <th className="font-bold text-left pl-4">Product</th>
+                    <th className="font-bold text-left pl-12">Condition</th>
+                    <th className="font-bold text-left pl-12">Resell Price</th>
+                    <th className="font-bold text-left pl-12">Status</th>
+                    <th className="font-bold text-left pl-20">Action</th>
                   </tr>
                 </thead>
                 <tbody className="w-full">
@@ -149,7 +156,7 @@ const MyProducts = () => {
                           Delete
                         </button>
                       </td>
-                      <td className="pl-20">
+                      <td className="pl-10">
                         {product.status !== "available" ? (
                           <button className="btn border-none hover:bg-gray-500 bg-gray-500 btn-sm w-28 rounded-lg">
                             Unavailable

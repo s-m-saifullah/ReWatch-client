@@ -37,6 +37,7 @@ const Login = () => {
         console.log(newUser);
         setLoginUserEmail(newUser.email);
         toast.success("Login Successful");
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);

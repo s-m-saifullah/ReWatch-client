@@ -51,6 +51,13 @@ const MyWishlist = () => {
     <div>
       {dataLoading ? (
         <Spinner />
+      ) : wishlistProducts.length === 0 ? (
+        <div className="min-h-[300px] flex justify-center items-center w-full">
+          <p className="text-center text-3xl">
+            You don't have any item in wishlist to display. Add some items to
+            wishlist first.
+          </p>
+        </div>
       ) : (
         <>
           <div className="w-full sm:px-6 mt-10">

@@ -77,6 +77,10 @@ const AllBuyers = () => {
     <div>
       {dataLoading ? (
         <Spinner />
+      ) : buyers.length === 0 ? (
+        <div className="min-h-[300px] flex justify-center items-center w-full">
+          <p className="text-center text-3xl">There is no buyer to display.</p>
+        </div>
       ) : (
         <>
           <div className="w-full sm:px-6 mt-10">

@@ -65,6 +65,15 @@ const MyOrders = () => {
     <div>
       {dataLoading ? (
         <Spinner />
+      ) : bookings.length === 0 ? (
+        <div className="min-h-[300px] flex justify-center items-center w-full">
+          <p className="text-center text-3xl">
+            You don't have any order to display.{" "}
+            <Link to="/" className="text-indigo-700">
+              Order product.
+            </Link>
+          </p>
+        </div>
       ) : (
         <>
           <div className="w-full sm:px-6 mt-10">

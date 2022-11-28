@@ -9,7 +9,6 @@ const Dashboard = () => {
   const { user, loading } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
 
-  console.log("loading:", loading, "isUserRoleLoading:", isUserRoleLoading);
   if (loading || isUserRoleLoading) {
     return <Spinner />;
   }
