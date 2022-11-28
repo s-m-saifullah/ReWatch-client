@@ -10,7 +10,7 @@ const CheckoutForm = ({ booking }) => {
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  const { buyer, buyerEmail, price } = booking;
+  const { _id, productId, buyer, buyerEmail, price } = booking;
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_apiUrl}/create-payment-intent`, {
@@ -69,8 +69,31 @@ const CheckoutForm = ({ booking }) => {
     }
 
     if (paymentIntent.status === "succeeded") {
-      setPaymentSuccess("Congratulations! Payment Successful.");
-      setTransactionId(paymentIntent.id);
+      // Save payment info in the db
+      const paymentData = {
+        price,
+        transactionId: paymentIntent.id,
+        buyerEmail,
+        bookingId: _id,
+        productId,
+      };
+
+      fetch(`${import.meta.env.VITE_apiUrl}/payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(paymentData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            console.log(data);
+            setPaymentSuccess("Congratulations! Payment Successful.");
+            setTransactionId(paymentIntent.id);
+          }
+        });
       setProcessing(false);
     }
 

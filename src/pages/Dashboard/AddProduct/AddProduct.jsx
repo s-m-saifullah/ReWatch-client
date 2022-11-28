@@ -227,44 +227,59 @@ const AddProduct = () => {
             <label className="inline-block mb-3">Product Condition</label>
             <div className="flex gap-10">
               <div className="flex items-center gap-2">
-                <input
-                  {...register("productCondition", {
-                    required: "Product condition is required",
-                  })}
-                  id="excellent"
-                  type="radio"
-                  name="productCondition"
-                  className="radio"
-                  value="excellent"
-                  checked
-                />
-                <label htmlFor="excellent">Excellent</label>
+                <label
+                  className="flex items-center cursor-pointer"
+                  htmlFor="excellent"
+                >
+                  <input
+                    {...register("productCondition", {
+                      required: "Product condition is required",
+                    })}
+                    id="excellent"
+                    type="radio"
+                    name="productCondition"
+                    className="radio mr-2"
+                    value="excellent"
+                    checked
+                  />
+                  <span>Excellent</span>
+                </label>
               </div>
               <div className="flex items-center gap-2">
-                <input
-                  {...register("productCondition", {
-                    required: "Product condition is required",
-                  })}
-                  id="good"
-                  type="radio"
-                  name="productCondition"
-                  value="good"
-                  className="radio"
-                />{" "}
-                <label htmlFor="good">Good</label>
+                <label
+                  className="flex items-center cursor-pointer"
+                  htmlFor="good"
+                >
+                  <input
+                    {...register("productCondition", {
+                      required: "Product condition is required",
+                    })}
+                    id="good"
+                    type="radio"
+                    name="productCondition"
+                    value="good"
+                    className="radio mr-2"
+                  />
+                  <span>Good</span>
+                </label>
               </div>
               <div className="flex items-center gap-2">
-                <input
-                  {...register("productCondition", {
-                    required: "Product condition is required",
-                  })}
-                  id="fair"
-                  type="radio"
-                  name="productCondition"
-                  value="fair"
-                  className="radio"
-                />{" "}
-                <label htmlFor="fair">Fair</label>
+                <label
+                  className="flex items-center cursor-pointer"
+                  htmlFor="fair"
+                >
+                  <input
+                    {...register("productCondition", {
+                      required: "Product condition is required",
+                    })}
+                    id="fair"
+                    type="radio"
+                    name="productCondition"
+                    value="fair"
+                    className="radio mr-2"
+                  />
+                  <span>Fair</span>
+                </label>
               </div>
             </div>
             {errors.productCondition && (

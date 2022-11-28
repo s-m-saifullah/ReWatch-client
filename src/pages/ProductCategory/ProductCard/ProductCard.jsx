@@ -65,7 +65,11 @@ const ProductCard = ({ product, setPurchase, refetch }) => {
       });
   };
   return (
-    <div className="mx-2 w-full min-h-[780px] lg:mb-0 mb-8 shadow-lg rounded-xl relative">
+    <div
+      className={`${
+        status === "sold" && "opacity-50"
+      } mx-2 w-full min-h-[780px] lg:mb-0 mb-8 shadow-lg rounded-xl relative`}
+    >
       <div>
         <img src={image} className="h-96 mx-auto" />
       </div>
@@ -141,8 +145,12 @@ const ProductCard = ({ product, setPurchase, refetch }) => {
               </label>
             </Link>
           ) : status === "booked" ? (
-            <label className="absolute bottom-5 right-5 left-5 block text-center hover:opacity-90 text-base xl:text-base py-4 text-white font-bold bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg cursor-pointer">
+            <label className="absolute bottom-5 right-5 left-5 block text-center text-base xl:text-base py-4 text-white font-bold bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 rounded-lg ">
               Product Booked
+            </label>
+          ) : status === "sold" ? (
+            <label className="absolute bottom-5 right-5 left-5 block text-center text-base xl:text-base py-4 text-white font-bold bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-red-500 rounded-lg ">
+              Product Sold
             </label>
           ) : (
             <label

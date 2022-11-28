@@ -122,16 +122,21 @@ const MyOrders = () => {
                       </td>
 
                       <td className="pl-20">
-                        <button
-                          onClick={() => handleDelete(booking)}
-                          className="btn btn-sm bg-red-500 border-none rounded-lg text-white"
-                        >
-                          Cancel
-                        </button>
+                        {!booking.paid && (
+                          <button
+                            onClick={() => handleDelete(booking)}
+                            className="btn btn-sm bg-red-500 border-none rounded-lg text-white"
+                          >
+                            Cancel
+                          </button>
+                        )}
                       </td>
                       <td className="pl-10">
                         {booking.paid ? (
-                          <button className="btn border-none hover:bg-green-500 bg-green-500 btn-sm w-28 rounded-lg">
+                          <button
+                            className="btn border-none hover:bg-green-500 bg-green-500 btn-sm w-28 rounded-lg disabled:bg-gray-500 disabled:text-white"
+                            disabled
+                          >
                             Paid
                           </button>
                         ) : (

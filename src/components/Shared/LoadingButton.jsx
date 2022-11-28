@@ -1,11 +1,11 @@
 import React from "react";
 
-const LoadingButton = () => {
+const LoadingButton = ({ className }) => {
   return (
     <button
       disabled
       type="button"
-      class="w-full hover:opacity-90 text-base xl:text-base py-4 bg-gray-500 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500    rounded-lg"
+      className="w-full hover:opacity-90 text-base xl:text-base py-4 bg-gray-500 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg"
     >
       <svg
         role="status"
