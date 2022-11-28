@@ -9,12 +9,12 @@ const useRole = (email) => {
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);
-
           setUserRole(data.role);
           setIsUserRoleLoading(false);
         });
     } else {
       setUserRole("");
+      setIsUserRoleLoading(false);
     }
   }, [email]);
   return [userRole, isUserRoleLoading];

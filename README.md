@@ -22,3 +22,8 @@ Link: https://rewatch-322ef.web.app/
 - Firebase
 - Express
 - Mongodb
+
+## Admin Credential
+
+adminEmail: admin@rewatch.com
+adminPassword: Abc123$

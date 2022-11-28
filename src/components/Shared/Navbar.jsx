@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo-light.svg";
 import { AuthContext } from "../../contexts/AuthProvider";
 import useRole from "../../hooks/useRole";
+import Spinner from "./Spinner";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);

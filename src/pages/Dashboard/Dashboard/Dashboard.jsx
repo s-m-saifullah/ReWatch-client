@@ -6,15 +6,15 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 import useRole from "../../../hooks/useRole";
 
 const Dashboard = () => {
-  const { user, loading, logout } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
 
+  console.log("loading:", loading, "isUserRoleLoading:", isUserRoleLoading);
   if (loading || isUserRoleLoading) {
     return <Spinner />;
   }
 
   if (userRole) {
-    console.log(userRole);
     console.log(userRole === "buyer");
     if (userRole === "admin") {
       return <Navigate to="/dashboard/all-sellers" />;

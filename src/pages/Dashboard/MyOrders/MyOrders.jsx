@@ -38,7 +38,6 @@ const MyOrders = () => {
     return <Navigate to="/" />;
   }
 
-  console.log(bookings);
   const handleDelete = (booking) => {
     const consent = confirm("Do you want to delete the product?");
     console.log(consent);

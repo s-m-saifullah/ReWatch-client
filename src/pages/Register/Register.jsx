@@ -28,7 +28,6 @@ const Register = () => {
   }
 
   const handleSignUp = (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("image", data.image[0]);
 
@@ -56,6 +55,7 @@ const Register = () => {
                   data.userRole,
                   false
                 );
+                setLoading(false);
               })
               .catch((err) => {
                 console.log(err);
@@ -144,7 +144,18 @@ const Register = () => {
 
             <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400 mb-5">
               <input
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be 6 characters long",
+                  },
+                  pattern: {
+                    value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
+                    message:
+                      "Password must have an uppercase, a number and a special characters",
+                  },
+                })}
                 type="password"
                 placeholder="Password"
                 className="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
