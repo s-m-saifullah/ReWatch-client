@@ -9,7 +9,7 @@ import useRole from "../../../hooks/useRole";
 
 const AllSeller = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: sellers = [], refetch } = useQuery({
     queryKey: ["sellers"],
@@ -22,6 +22,9 @@ const AllSeller = () => {
           },
         }
       );
+      if (res.status === 403 || res.status === 401) {
+        logout();
+      }
       const data = await res.json();
       setDataLoading(false);
       return data;

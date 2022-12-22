@@ -37,7 +37,12 @@ const MyWishlist = () => {
       },
       body: JSON.stringify(product),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 403 || res.status === 401) {
+          logout();
+        }
+        return res.json();
+      })
       .then((data) => {
         console.log(data);
         if (data.userUpdate.modifiedCount > 0) {

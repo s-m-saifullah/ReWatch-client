@@ -31,14 +31,18 @@ const DashboardLayout = () => {
               <>
                 <li
                   className={
-                    urlPath === "all-sellers" && "bg-indigo-700 text-white"
+                    urlPath === "all-sellers"
+                      ? "bg-indigo-700 text-white"
+                      : undefined
                   }
                 >
                   <Link to="/dashboard/all-sellers">All Sellers</Link>
                 </li>
                 <li
                   className={
-                    urlPath === "all-buyers" && "bg-indigo-700 text-white"
+                    urlPath === "all-buyers"
+                      ? "bg-indigo-700 text-white"
+                      : undefined
                   }
                 >
                   <Link to="/dashboard/all-buyers">All Buyers</Link>
@@ -48,14 +52,18 @@ const DashboardLayout = () => {
               <>
                 <li
                   className={
-                    urlPath === "add-product" && "bg-indigo-700 text-white"
+                    urlPath === "add-product"
+                      ? "bg-indigo-700 text-white"
+                      : undefined
                   }
                 >
                   <Link to="/dashboard/add-product">Add Product</Link>
                 </li>
                 <li
                   className={
-                    urlPath === "my-products" && "bg-indigo-700 text-white"
+                    urlPath === "my-products"
+                      ? "bg-indigo-700 text-white"
+                      : undefined
                   }
                 >
                   <Link to="/dashboard/my-products">My Products</Link>
@@ -65,14 +73,18 @@ const DashboardLayout = () => {
               <>
                 <li
                   className={
-                    urlPath === "my-orders" && "bg-indigo-700 text-white"
+                    urlPath === "my-orders"
+                      ? "bg-indigo-700 text-white"
+                      : undefined
                   }
                 >
                   <Link to="/dashboard/my-orders">My Orders</Link>
                 </li>
                 <li
                   className={
-                    urlPath === "wishlist" && "bg-indigo-700 text-white"
+                    urlPath === "wishlist"
+                      ? "bg-indigo-700 text-white"
+                      : undefined
                   }
                 >
                   <Link to="/dashboard/wishlist">My Wishlist</Link>

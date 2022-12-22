@@ -11,7 +11,7 @@ import useRole from "../../../hooks/useRole";
 
 const MyOrders = () => {
   const [dataLoading, setDataLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [userRole, isUserRoleLoading] = useRole(user?.email);
   const { data: bookings = [], refetch } = useQuery({
     queryKey: ["userProducts"],
@@ -24,6 +24,9 @@ const MyOrders = () => {
           },
         }
       );
+      if (res.status === 403 || res.status === 401) {
+        logout();
+      }
       const data = await res.json();
       setDataLoading(false);
       return data;
@@ -65,7 +68,7 @@ const MyOrders = () => {
     <div>
       {dataLoading ? (
         <Spinner />
-      ) : bookings.length === 0 ? (
+      ) : bookings?.length === 0 ? (
         <div className="min-h-[300px] flex justify-center items-center w-full">
           <p className="text-center text-3xl">
             You don't have any order to display.{" "}
@@ -96,7 +99,7 @@ const MyOrders = () => {
                   </tr>
                 </thead>
                 <tbody className="w-full">
-                  {bookings.map((booking, i) => (
+                  {bookings?.map((booking, i) => (
                     <tr
                       key={booking._id}
                       className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100"
